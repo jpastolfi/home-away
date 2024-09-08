@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import SubmitButton from "@/components/form/Buttons"
 
 const createProfileAction = async (formData: FormData) => {
   'use server'
@@ -14,7 +14,6 @@ export default function CreateProfilePage() {
     <div className="border p-8 rounded-md max-w-lg">
       <form action={createProfileAction}>
 
-        <Button type="submit" size='lg'>Create profile</Button>
       </form>
     </div>
   </section>
