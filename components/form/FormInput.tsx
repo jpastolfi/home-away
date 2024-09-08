@@ -14,7 +14,7 @@ export default function FormInput(props: FormInputProps) {
   return (
     <div className="mb-2">
       <Label htmlFor={name} className='capitalize'>{label || name}</Label>
-      <Input id={name} name={name} type={type} defaultValue={defaultValue} placeholder={placeholder}></Input>
+      <Input id={name} name={name} type={type} defaultValue={defaultValue} placeholder={placeholder} required />
     </div>
   )
 }
