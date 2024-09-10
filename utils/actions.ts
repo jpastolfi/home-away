@@ -1,6 +1,6 @@
 'use server'
 
-import { ProfileSchema } from "./schemas"
+import { ProfileSchema, validateWithZodSchema } from "./schemas"
 import db from './db';
 import { auth, clerkClient, currentUser } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
@@ -75,7 +75,8 @@ export const updateProfileAction = async (prevState: any, formData: FormData): P
   const user = await getAuthUser();
   try {
     const rawData = Object.fromEntries(formData);
-    const validatedFields = ProfileSchema.parse(rawData);
+    const validatedFields = validateWithZodSchema(ProfileSchema, rawData);
+    
     await db.profile.update({
       where: {
         clerkId: user.id
