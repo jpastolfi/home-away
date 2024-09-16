@@ -1,4 +1,5 @@
 import SubmitButton from "@/components/form/Buttons"
+import CategoriesInput from "@/components/form/CategoriesInput"
 import FormContainer from "@/components/form/FormContainer"
 import FormInput from "@/components/form/FormInput"
 import PriceInput from "@/components/form/PriceInput"
@@ -14,7 +15,7 @@ export default function CreatePropertyPage() {
           <FormInput name="name" type="text" label="Name (20 limit)" defaultValue="Cabin in Caxias" />
           <FormInput name="tagline" type="text" label="Tagline (30 limit)" defaultValue="Dream getaway await you here" />
           <PriceInput />
-          {/* categories */}
+          <CategoriesInput />
         </div>
         {/* text area / description */}
         <SubmitButton text="create rental" className="mt-12" />
