@@ -13,8 +13,9 @@ export const ProfileSchema = z.object({
   }),
 })
 
-export async function validateWithZodSchema<T>(schema: ZodSchema<T>, data: unknown) {
-  const result = await schema.safeParseAsync(data);
+export function validateWithZodSchema<T>(schema: ZodSchema<T>, data: unknown) {
+  const result = schema.safeParse(data);
+  console.log(result.error);
   if (!result.success) {
     const errors = result.error.errors.map((error) => error.message)
     throw new Error(errors.join(', '));

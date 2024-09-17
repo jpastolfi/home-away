@@ -1,1 +1,1 @@
-export const accomodationDetails: string[] = ["guests", "bedrooms", "beds", "bathrooms"];
+export const accomodationDetails: string[] = ["guests", "bedrooms", "beds", "baths"];
