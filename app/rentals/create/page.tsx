@@ -1,3 +1,4 @@
+import AmenitiesInput from "@/components/form/AmenitiesInput"
 import SubmitButton from "@/components/form/Buttons"
 import CategoriesInput from "@/components/form/CategoriesInput"
 import CounterInput from "@/components/form/CounterInput"
@@ -7,6 +8,7 @@ import FormInput from "@/components/form/FormInput"
 import ImageInput from "@/components/form/ImageInput"
 import PriceInput from "@/components/form/PriceInput"
 import TextAreaInput from "@/components/form/TextAreaInput"
+import { accomodationDetails } from "@/utils/accomodation-details"
 import { createPropertyAction } from "@/utils/actions"
 
 export default function CreatePropertyPage() {
@@ -27,10 +29,11 @@ export default function CreatePropertyPage() {
           <ImageInput />
         </div>
         <h3 className="text-lg mt-8 mb-4 font-medium">Accomodation Details</h3>
-        <CounterInput title="guests" />
-        <CounterInput title="bedrooms" />
-        <CounterInput title="beds" />
-        <CounterInput title="bathrooms" />
+        {accomodationDetails.map((detail) => {
+          return <CounterInput key={detail.length} title={detail} />
+        })}
+        <h3 className="text-lg mt-10 mb-6 font-medium">Accomodation Amenities</h3>
+        <AmenitiesInput />
         <SubmitButton text="create rental" className="mt-12" />
       </FormContainer>
     </div>
