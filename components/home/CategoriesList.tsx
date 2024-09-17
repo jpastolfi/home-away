@@ -11,8 +11,7 @@ export default function CategoriesList({ category, search }: { category?: string
           {categories.map((item) => {
             const isActive = item.label === category;
             return <Link key={item.label} href={`/?category=${item.label}${searchTerm}`}>
-              <article className={`p-3 flex flex-col items-center cursor-pointer duration-300 hover:text-primary w-[100px]`}>
-                ${isActive ? 'text-primary' : ''}
+              <article className={`p-3 flex flex-col items-center cursor-pointer duration-300 hover:text-primary w-[100px] ${isActive ? 'text-primary' : ''}`}>
                 <item.icon className="w-8 h-8" />
                 <p className="capitalize text-sm mt-1">{item.label}</p>
               </article>
