@@ -18,7 +18,7 @@ type ImageInputContainerProps = {
 }
 
 export default function ImageInputContainer(props: ImageInputContainerProps) {
-  const { image, name, action, text, children } = props;
+  const { image, name, action, text } = props;
   const [isUpdateFormVisible, setUpdateFormVisible] = useState(false);
   const userIcon = <LuUser2 className='w-24 h-24 bg-primary rounded text-white' mb-4 />
   return <div>
@@ -30,7 +30,6 @@ export default function ImageInputContainer(props: ImageInputContainerProps) {
     </Button>
     {isUpdateFormVisible && <div className="max-w-lg mt-4">
       <FormContainer action={action}>
-        {/* {children} */}
         <ImageInput />
         <SubmitButton size="sm" />
       </FormContainer>
