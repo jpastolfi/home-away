@@ -36,7 +36,7 @@ export default function PropertyCard({ property }: { property: PropertyCardProps
             </span>
             night
           </p>
-          {/* {country and flag} */}
+          <CountryFlagAndName countryCode={country} />
         </div>
       </Link>
       <div className="absolute top-5 right-5 <-5">
