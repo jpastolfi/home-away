@@ -5,7 +5,6 @@ import { PropertyCardProps } from '../../utils/types';
 
 export default async function PropertiesContainer({ category, search }: { category?: string, search?: string }) {
   const properties: PropertyCardProps[] = await fetchProperties({ category, search });
-  console.log(properties);
   if (properties.length === 0) {
     return (
       <EmptyList heading="No results" message="Try changing or removing some of your filters." btnText="clear filters" />
