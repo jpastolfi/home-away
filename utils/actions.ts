@@ -185,9 +185,27 @@ export const toggleFavoriteAction = async (prevState: {
   favoriteId: string | null;
   pathname: string;
 }) => {
+  const user = await getAuthUser();
   const {propertyId, favoriteId, pathname} = prevState;
-  /* console.log("propertyId", propertyId)
-  console.log("favoriteId", favoriteId)
-  console.log("pathname", pathname); */
+  try {
+    if (favoriteId) {
+      await db.favorite.delete({
+        where: {
+          id: favoriteId,
+        }
+      })
+    } else {
+      await db.favorite.create({
+        data: {
+          propertyId,
+          profileId: user.id
+        }
+      })
+    }
+    revalidatePath(pathname);
+    return {message: favoriteId ? 'Removed from favorites' : 'Added to favorites'}
+  } catch (error) {
+    return renderError(error);
+  }
   return { message: 'Toggle favorite'}
 }
