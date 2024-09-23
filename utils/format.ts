@@ -7,3 +7,7 @@ export const formatCurrency = (amount: number | null) => {
     maximumFractionDigits: 0,
   }).format(value);
 }
+
+export const formatQuantity = (quantity: number, noun: string): string => {
+  return `${quantity} ${noun}${quantity === 1 ? '' : 's'}`;
+}
