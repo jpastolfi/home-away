@@ -1,6 +1,5 @@
-import { SelectTrigger } from "@radix-ui/react-select";
 import { Label } from "../ui/label";
-import { Select, SelectContent, SelectItem, SelectValue } from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from "../ui/select";
 
 export default function RatingInput({ name, labelText }: { name: string, labelText?: string }) {
   const numbers = Array.from({ length: 5 }, (_, i) => {
@@ -8,8 +7,8 @@ export default function RatingInput({ name, labelText }: { name: string, labelTe
     return value.toString();
   }).reverse();
   return (
-    <div className="mb-2 max-w-sm">
-      <Label htmlFor={name} className="capitalize">
+    <div className='mb-2 max-w-xs'>
+      <Label htmlFor={name} className='capitalize'>
         {labelText || name}
       </Label>
       <Select defaultValue={numbers[0]} name={name} required>
@@ -22,10 +21,10 @@ export default function RatingInput({ name, labelText }: { name: string, labelTe
               <SelectItem key={number} value={number}>
                 {number}
               </SelectItem>
-            )
+            );
           })}
         </SelectContent>
       </Select>
     </div>
-  )
+  );
 }
