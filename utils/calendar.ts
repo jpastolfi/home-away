@@ -75,6 +75,8 @@ export const generateDisabledDates = (
   return disabledDates;
 };
 
+
+// Function to calculate how many days exist between two given Dates (check in and check out)
 export function calculateDaysBetween({
   checkIn,
   checkOut,
