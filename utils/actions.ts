@@ -355,3 +355,9 @@ export const findExistingReview = async (userId: string, propertyId: string) => 
     }
   })
 }
+
+export const createBookingAction = async () => {
+  return {
+    message: 'Created booking'
+  }
+}
