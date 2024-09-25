@@ -239,6 +239,12 @@ export const fetchPropertyDetails = async (id: string) => {
     },
     include: {
       profile: true,
+      bookings: {
+        select: {
+          checkIn: true,
+          checkOut: true,
+        }
+      }
     }
   })
 }
@@ -335,7 +341,6 @@ export const fetchPropertyRating = async (propertyId: string) => {
       propertyId
     }
   })
-  console.log(result);
   return {
     rating: result[0]?._avg.rating?.toFixed() ?? 0, 
     count: result[0]?._count.rating ?? 0, 

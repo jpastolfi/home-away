@@ -32,6 +32,8 @@ export default async function PropertyDetailsPage({ params }: { params: { id: st
   const { userId } = auth();
   const isNotOwner = property.profile.clerkId !== userId;
   const reviewDoesNotExist = userId && isNotOwner && !(await findExistingReview(userId, property.id))
+  console.log(property.bookings);
+
 
   return (
     <section>

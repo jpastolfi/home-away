@@ -32,8 +32,8 @@ model Profile {
   // Each Profile can have many Properties, so the type of Property is going to be Property[]
   Property     Property[]
   favorites    Favorite[]
-  Review       Review[]
-  Booking      Booking[]
+  reviews      Review[]
+  bookings     Booking[]
 }
 
 model Property {
@@ -59,8 +59,8 @@ model Property {
   profile     Profile    @relation(fields: [profileId], references: [clerkId], onDelete: Cascade)
   profileId   String
   favorites   Favorite[]
-  Review      Review[]
-  Booking     Booking[]
+  reviews     Review[]
+  bookings    Booking[]
 }
 
 model Favorite {
