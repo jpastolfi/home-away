@@ -17,10 +17,19 @@ import {
 export default function BookingCalendar() {
   const currentDate = new Date();
   const [range, setRange] = useState<DateRange | undefined>(defaultSelected);
+  const { bookings } = useProperty((state) => state);
+  const blockedPeriods = generateBlockedPeriods({ bookings, today: currentDate });
   useEffect(() => {
     useProperty.setState({ range })
   }, [range])
   return (
-    <Calendar mode="range" defaultMonth={currentDate} selected={range} onSelect={setRange} className="mb-4" />
+    <Calendar
+      mode="range"
+      defaultMonth={currentDate}
+      selected={range}
+      onSelect={setRange}
+      className="mb-4"
+      disabled={blockedPeriods}
+    />
   )
 }
