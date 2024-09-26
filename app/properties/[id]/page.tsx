@@ -1,7 +1,6 @@
 import FavoriteToggleButton from "@/components/card/FavoriteToggleButton";
 import PropertyRating from "@/components/card/PropertyRating";
 import Amenities from "@/components/properties/Amenities";
-import BookingCalendar from "@/components/properties/BookingCalendar";
 import BreadCrumbs from "@/components/properties/BreadCrumbs";
 import Description from "@/components/properties/Description";
 import ImageContainer from "@/components/properties/ImageContainer";
@@ -16,6 +15,11 @@ import { fetchPropertyDetails, findExistingReview } from "@/utils/actions"
 import { auth } from "@clerk/nextjs/server";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
+
+const DynamicBookingWrapper = dynamic(() => import('@/components/booking/BookingWrapper'), {
+  ssr: false,
+  loading: () => <Skeleton className="h-[200px] w-full" />,
+})
 
 const DynamicMap = dynamic(() => import('@/components/properties/PropertyMap'), {
   ssr: false,
@@ -58,7 +62,7 @@ export default async function PropertyDetailsPage({ params }: { params: { id: st
           <DynamicMap countryCode={property.country} />
         </div>
         <div className="lg:col-span-4 flex flex-col items-center">
-          <BookingCalendar />
+          <DynamicBookingWrapper propertyId={property.id} price={property.price} bookings={property.bookings} />
         </div>
       </section>
       {reviewDoesNotExist && <SubmitReview propertyId={property.id} />}
