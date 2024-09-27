@@ -471,7 +471,7 @@ export const fetchRentals = async () => {
   return rentalsWithBookingsSum;
 }
 
-export const deleteRental = async (prevState: {propertyId: string}) => {
+export const deleteRentalAction = async (prevState: {propertyId: string}) => {
   const { propertyId } = prevState;
   const user = await getAuthUser();
   try {
