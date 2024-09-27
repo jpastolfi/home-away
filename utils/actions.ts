@@ -2,7 +2,7 @@
 
 import { createReviewSchema, imageSchema, ProfileSchema, propertySchema, validateWithZodSchema } from "./schemas"
 import db from './db';
-import { auth, clerkClient, currentUser } from '@clerk/nextjs/server';
+import { clerkClient, currentUser } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { uploadImage } from "./supabase";
@@ -427,5 +427,63 @@ export const deleteBookingAction = async (prevState: {bookingId: string}) => {
     return {message: "Booking deleted successfully"};
   } catch (error) {
     return renderError(error)
+  }
+}
+
+export const fetchRentals = async () => {
+  const user = await getAuthUser();
+  const rentals = await db.property.findMany({
+    where: {
+      profileId: user.id
+    },
+    select: {
+      id: true,
+      name: true,
+      price: true,
+    }
+  });
+  const rentalsWithBookingsSum = await Promise.all(
+    rentals.map(async (rental) => {
+      const totalNightsSum = await db.booking.aggregate({
+        where:
+        {
+          propertyId: rental.id
+        },
+        _sum: {
+          totalNights: true,
+        },
+      });
+      const orderTotalSum = await db.booking.aggregate({
+        where: {
+          propertyId: rental.id
+        },
+        _sum: {
+          orderTotal: true
+        },
+      });
+      return {
+        ...rental,
+        totalNightsSum: totalNightsSum._sum.totalNights || 0,
+        orderTotalSum: orderTotalSum._sum.orderTotal || 0
+      }
+    })
+  );
+  return rentalsWithBookingsSum;
+}
+
+export const deleteRental = async (prevState: {propertyId: string}) => {
+  const { propertyId } = prevState;
+  const user = await getAuthUser();
+  try {
+    await db.property.delete({
+      where: {
+        id: propertyId,
+        profileId: user.id,
+      }
+    })
+    revalidatePath('/rentals')
+    return { message: "Rental deleted successfully" }
+  } catch (error) {
+    return renderError(error);
   }
 }
