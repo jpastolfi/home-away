@@ -391,7 +391,7 @@ export const createBookingAction = async (prevState: {
   redirect('/bookings')
 }
 
-export const fetchBookins = async () => { 
+export const fetchBookings = async () => { 
   const user = await getAuthUser();
   const bookings = await db.booking.findMany({
     where: {
@@ -413,7 +413,7 @@ export const fetchBookins = async () => {
   return bookings;
 }
 
-export const deleteBooking = async (prevState: {bookingId: string}) => {
+export const deleteBookingAction = async (prevState: {bookingId: string}) => {
   const {bookingId} = prevState;
   const user = await getAuthUser();
   try {
@@ -426,6 +426,6 @@ export const deleteBooking = async (prevState: {bookingId: string}) => {
     revalidatePath('/bookings')
     return {message: "Booking deleted successfully"};
   } catch (error) {
-    renderError(error)
+    return renderError(error)
   }
 }

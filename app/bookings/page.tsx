@@ -1,13 +1,16 @@
 import CountryFlagAndName from "@/components/card/CountryFlagAndName";
+import { IconButton } from "@/components/form/Buttons";
+import FormContainer from "@/components/form/FormContainer";
 import EmptyList from "@/components/home/EmptyList";
+import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { fetchBookins } from "@/utils/actions"
+import { deleteBookingAction, fetchBookings } from "@/utils/actions"
 import { formatCurrency, formatDate } from "@/utils/format";
 import Link from "next/link";
 
 
 export default async function BookingsPage() {
-  const bookings = await fetchBookins();
+  const bookings = await fetchBookings();
   if (bookings.length < 1) return <EmptyList />
 
   return (
@@ -39,11 +42,20 @@ export default async function BookingsPage() {
               <TableCell>{formatCurrency(orderTotal)}</TableCell>
               <TableCell>{startDate}</TableCell>
               <TableCell>{endDate}</TableCell>
-
+              <TableCell><DeleteBooking bookingId={id} /></TableCell>
             </TableRow>
           })}
         </TableBody>
       </Table>
     </div>
+  )
+}
+
+const DeleteBooking = ({ bookingId }: { bookingId: string }) => {
+  const deleteBooking = deleteBookingAction.bind(null, { bookingId });
+  return (
+    <FormContainer action={deleteBooking}>
+      <IconButton actionType="delete" />
+    </FormContainer>
   )
 }
