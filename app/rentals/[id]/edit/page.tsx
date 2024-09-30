@@ -1,3 +1,4 @@
+import AmenitiesInput from "@/components/form/AmenitiesInput";
 import SubmitButton from "@/components/form/Buttons";
 import CategoriesInput from "@/components/form/CategoriesInput";
 import CounterInput from "@/components/form/CounterInput";
@@ -10,11 +11,13 @@ import TextAreaInput from "@/components/form/TextAreaInput";
 import ImageContainer from "@/components/properties/ImageContainer";
 import { Input } from "@/components/ui/input";
 import { fetchPropertyDetails, updatePropertyAction, updatePropertyImageAction } from "@/utils/actions"
+import { Amenity } from "@/utils/amenities";
 import { redirect } from "next/navigation";
 
 export default async function EditRentalPage({ params }: { params: { id: string } }) {
   const property = await fetchPropertyDetails(params.id);
   if (!property) redirect('/');
+  const defaultAmenities: Amenity[] = JSON.parse(property.amenities);
   return (
     <section>
       <h1 className="text-2l capitalize mb-8 font-semibold">edit property</h1>
@@ -37,6 +40,11 @@ export default async function EditRentalPage({ params }: { params: { id: string 
           <CounterInput title="Bedrooms" defaultValue={property.bedrooms} />
           <CounterInput title="Beds" defaultValue={property.beds} />
           <CounterInput title="Baths" defaultValue={property.baths} />
+          <h3 className="text-lg mt-10 mb-6 font-medium">Amenities</h3>
+          <AmenitiesInput defaultValue={defaultAmenities} />
+          {/* {defaultAmenities.map((amenity) => {
+
+          })} */}
           <SubmitButton text="edit property" className="mt-12" />
         </FormContainer>
       </div>
