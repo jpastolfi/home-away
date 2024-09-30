@@ -498,10 +498,51 @@ export const fetchRentalDetails = async (propertyId: string) => {
   });
 };
 
-export const updatePropertyAction = async () => {
-  return { message: "Update property action"}
+export const updatePropertyAction = async (prevState: any, formData: FormData): Promise<{message: string}>  => {
+  const user = await getAuthUser();
+  const propertyId = formData.get('id') as string;
+  try {
+    const rawData = Object.fromEntries(formData);
+    console.log("****************");
+    console.log(rawData);
+    console.log("****************");
+    const validatedFields = validateWithZodSchema(propertySchema, rawData);
+    await db.property.update({
+      where: {
+        id: propertyId,
+        profileId: user.id
+      },
+      data: {
+        ...validatedFields
+      },
+    })
+    revalidatePath(`/rentals/${propertyId}/edit`)
+    return { message: "Property updated successfully"}
+  } catch (error) {
+    return renderError(error)
+  }
 }
 
-export const updatePropertyImageAction = async () => {
-  return { message: "Update property image action"}
+export const updatePropertyImageAction = async (prevState: any, formData: FormData): Promise<{message: string}> => {
+  const user = await getAuthUser();
+  const propertyId = formData.get('id') as string;
+  
+  try {
+    const image = formData.get('image') as File;
+    const validatedFile = validateWithZodSchema(imageSchema, {image});
+    const fullPath = await uploadImage(validatedFile.image);
+    await db.property.update({
+      where: {
+        id: propertyId,
+        profileId: user.id
+      },
+      data: {
+        image: fullPath
+      }
+    })
+    revalidatePath(`/rentals/${propertyId}/edit`);
+    return { message: "Property image updated successfully"}
+  } catch (error) {
+    return renderError(error);
+  }
 }

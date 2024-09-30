@@ -8,8 +8,6 @@ import FormInput from "@/components/form/FormInput";
 import ImageInputContainer from "@/components/form/ImageInputContainer";
 import PriceInput from "@/components/form/PriceInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
-import ImageContainer from "@/components/properties/ImageContainer";
-import { Input } from "@/components/ui/input";
 import { fetchPropertyDetails, updatePropertyAction, updatePropertyImageAction } from "@/utils/actions"
 import { Amenity } from "@/utils/amenities";
 import { redirect } from "next/navigation";
@@ -23,7 +21,7 @@ export default async function EditRentalPage({ params }: { params: { id: string 
       <h1 className="text-2l capitalize mb-8 font-semibold">edit property</h1>
       <div className="border p-8 rouned-md">
         <ImageInputContainer text='Update Image' name={property.name} action={updatePropertyImageAction} image={property.image}>
-          <Input type="hidden" name="id" value={property.id} />
+          <input type="hidden" name="id" value={property.id} />
         </ImageInputContainer>
         <FormContainer action={updatePropertyAction}>
           <input type="hidden" name="id" value={property.id} />
@@ -36,10 +34,11 @@ export default async function EditRentalPage({ params }: { params: { id: string 
           </div>
           <TextAreaInput name="description" labelText="Description (10-100 words limit)" defaultValue={property.description} />
           <h3 className="text-lg mt-8 mb-4 font-medium">Accomodation Details</h3>
-          <CounterInput title="Guests" defaultValue={property.guests} />
-          <CounterInput title="Bedrooms" defaultValue={property.bedrooms} />
-          <CounterInput title="Beds" defaultValue={property.beds} />
-          <CounterInput title="Baths" defaultValue={property.baths} />
+          <CounterInput title="guests" defaultValue={property.guests} />
+          <CounterInput title="bedrooms" defaultValue={property.bedrooms} />
+          <CounterInput title="beds" defaultValue={property.beds} />
+          <CounterInput title="baths" defaultValue={property.baths} />
+
           <h3 className="text-lg mt-10 mb-6 font-medium">Amenities</h3>
           <AmenitiesInput defaultValue={defaultAmenities} />
           {/* {defaultAmenities.map((amenity) => {
