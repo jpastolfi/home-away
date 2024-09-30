@@ -18,8 +18,8 @@ export default function CreatePropertyPage() {
       <h3 className="text-lg mb-4 font-medium">General Info</h3>
       <FormContainer action={createPropertyAction}>
         <div className="grid md:grid-cols-2 gap-8 mb-4">
-          <FormInput name="name" type="text" label="Name (20 limit)" defaultValue="Cabin in Caxias" />
-          <FormInput name="tagline" type="text" label="Tagline (30 limit)" defaultValue="Dream getaway await you here" />
+          <FormInput name="name" type="text" label="Name (20 limit)" />
+          <FormInput name="tagline" type="text" label="Tagline (30 limit)" />
           <PriceInput />
           <CategoriesInput />
         </div>
