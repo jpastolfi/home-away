@@ -620,6 +620,6 @@ export const fetchChartData = async () => {
       total.push({date, count: 1})
     }
     return total;
-  }, [] as Array<{date:string, count: number}>)
+  }, [] as Array<{ date:string, count: number }>)
   return bookingsPerMonth;
 }
