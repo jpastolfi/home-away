@@ -370,6 +370,14 @@ export const createBookingAction = async (prevState: {
   checkOut: Date,
 }) => {
   const user = await getAuthUser();
+  await db.booking.deleteMany({
+    where: {
+      profileId: user.id,
+      paymentStatus: false
+    }
+  });
+
+  let bookingId: string | null = null;
   const { propertyId, checkIn, checkOut } = prevState;
   const property = await db.property.findUnique({
     where: {
@@ -390,19 +398,21 @@ export const createBookingAction = async (prevState: {
         totalNights,
         profileId: user.id,
         propertyId
-      }
-    })
+      },
+    });
+    bookingId = booking.id;
   } catch (error) {
     return renderError(error);
   }
-  redirect('/bookings')
+  redirect(`/checkout?bookingId=${bookingId}`);
 }
 
 export const fetchBookings = async () => { 
   const user = await getAuthUser();
   const bookings = await db.booking.findMany({
     where: {
-      profileId: user.id
+      profileId: user.id,
+      paymentStatus: true
     },
     include: {
       property: {
@@ -454,7 +464,8 @@ export const fetchRentals = async () => {
       const totalNightsSum = await db.booking.aggregate({
         where:
         {
-          propertyId: rental.id
+          propertyId: rental.id,
+          paymentStatus: true
         },
         _sum: {
           totalNights: true,
@@ -462,7 +473,8 @@ export const fetchRentals = async () => {
       });
       const orderTotalSum = await db.booking.aggregate({
         where: {
-          propertyId: rental.id
+          propertyId: rental.id,
+          paymentStatus: true
         },
         _sum: {
           orderTotal: true
@@ -558,8 +570,9 @@ export const fetchReservations = async () => {
   const user = await getAuthUser();
   const reservations = await db.booking.findMany({
     where: {
+      paymentStatus: true,
       property: {
-        profileId: user.id
+        profileId: user.id,
       },
     },
     orderBy: {
@@ -583,7 +596,11 @@ export const fetchStats = async () => {
   await getAdminUser();
   const usersCount = await db.profile.count();
   const propertiesCount = await db.property.count();
-  const bookingsCount = await db.booking.count();
+  const bookingsCount = await db.booking.count({
+    where: {
+      paymentStatus: true
+    }
+  });
 
   return {
     usersCount,
@@ -600,6 +617,7 @@ export const fetchChartData = async () => {
 
   const bookings = await db.booking.findMany({
     where: {
+      paymentStatus: true,
       createdAt: {
         // Greater than or equals to
         gte: sixMonthsAgo
@@ -622,4 +640,32 @@ export const fetchChartData = async () => {
     return total;
   }, [] as Array<{ date:string, count: number }>)
   return bookingsPerMonth;
+}
+
+export const fetchReservationStats = async () => {
+  const user = await getAuthUser();
+
+  const properties = await db.property.count({
+    where: {
+      profileId: user.id,
+    }
+  });
+
+  const totals = await db.booking.aggregate({
+    _sum: {
+      orderTotal: true,
+      totalNights: true,
+    },
+    where: {
+      property: {
+        profileId: user.id,
+      }
+    }
+  })
+  
+  return {
+    properties,
+    nights: totals._sum.totalNights || 0,
+    amount: totals._sum.orderTotal || 0,
+  };
 }
