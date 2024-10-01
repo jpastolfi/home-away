@@ -12,10 +12,13 @@ export const formatQuantity = (quantity: number, noun: string): string => {
   return `${quantity} ${noun}${quantity === 1 ? '' : 's'}`;
 }
 
-export const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat('en-GB', {
+export const formatDate = (date: Date, onlyMonth?: boolean) => {
+  const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
-    day: 'numeric',
-  }).format(date);
+  };
+  if (!onlyMonth) {
+    options.day = 'numeric';
+  }
+  return new Intl.DateTimeFormat('en-GB', options).format(date);
 }

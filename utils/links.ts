@@ -5,10 +5,12 @@ type NavLink = {
 
 export const links: NavLink[] = [
   {href: '/', label: ''},
-  {href: '/favorites', label: 'favorites'},
+  {href: '/admin', label: 'admin'},
   {href: '/bookings', label: 'bookings'},
+  {href: '/favorites', label: 'favorites'},
+  {href: '/profile', label: 'profile'},
   {href: '/reviews', label: 'reviews'},
   {href: '/rentals/create', label: 'create rental'},
-  {href: '/rentals', label: 'rentals'},
-  {href: '/profile', label: 'profile'}
+  {href: '/rentals', label: 'my rentals'},
+  {href: '/reservations', label: 'reservations'},
 ]
